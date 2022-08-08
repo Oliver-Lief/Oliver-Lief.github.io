@@ -311,11 +311,13 @@ title是鼠标移上去之后显示到名字。</p>
     <url>/2022/08/06/Delete_sheet/</url>
     <content><![CDATA[<p>project url:</p>
 <p><a href="https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet">https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet</a></p>
-<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
-<p>将待处理的表格放入process data文件夹下</p>
+<p>小伙伴提出的一个想法，因平时只涉及到EXCEL的读取和数据计算操作，并不涉及页面的删除，故在遇到该问题时踩了很多坑，在此记录。并在此感谢<strong>Cassieleee</strong>问题的提出和帮助。</p>
+<h1 id="python方法"><a class="markdownIt-Anchor" href="#python方法"></a> Python方法</h1>
+<h2 id="使用说明"><a class="markdownIt-Anchor" href="#使用说明"></a> 使用说明：</h2>
+<p>将待处理的表格放入任意文件夹下。</p>
 <p><img src="/2022/08/06/Delete_sheet/ex2.png" alt="ex2"></p>
 <p><img src="/2022/08/06/Delete_sheet/ex1.png" alt="ex1"></p>
-<p>每个表格中均存在名为<code>Test</code>的Sheet名</p>
+<p>每个表格中均存在名为<code>Test</code>的Sheet名，将要删除该页面。</p>
 <p>填好路径运行即可</p>
 <h2 id="环境"><a class="markdownIt-Anchor" href="#环境"></a> 环境</h2>
 <ul>
@@ -327,27 +329,23 @@ title是鼠标移上去之后显示到名字。</p>
 <li>openpyxl</li>
 <li>os</li>
 </ul>
-<h2 id="讲解"><a class="markdownIt-Anchor" href="#讲解"></a> 讲解</h2>
+<h2 id="代码讲解"><a class="markdownIt-Anchor" href="#代码讲解"></a> 代码讲解</h2>
 <p>导入包</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">import</span> os</span><br></pre></td></tr></table></figure>
-<p>新建一个列表用来存放路径</p>
-<p>指定要删除的sheet名’Test’</p>
-<p>在当前程序所在目录遍历xlsx，并取出文件名存入filelist</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换路径</span></span><br><span class="line">path=<span class="string">r&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># 替换要删除的页面名字</span></span><br><span class="line">sheet_name = <span class="string">&#x27;Test&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filelist = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">str</span> = os.path.join(root, name)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">str</span>.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] == <span class="string">&#x27;xlsx&#x27;</span>:</span><br><span class="line">            filelist.append(<span class="built_in">str</span>)</span><br><span class="line"></span><br><span class="line">filelist</span><br></pre></td></tr></table></figure>
-<pre><code>['.\\process data\\1 - 副本 (2) - 副本.xlsx',
- '.\\process data\\1 - 副本 (2).xlsx',
- '.\\process data\\1 - 副本 (3).xlsx',
- '.\\process data\\1 - 副本 - 副本 (2).xlsx',
- '.\\process data\\1 - 副本 - 副本 - 副本.xlsx',
- '.\\process data\\1 - 副本 - 副本.xlsx',
- '.\\process data\\1 - 副本.xlsx',
- '.\\process data\\1.xlsx']
-</code></pre>
-<p>对filelist进行循环</p>
-<p>首先打开工作簿</p>
-<p>然后得到要删除的工作表并调用remove方法移除</p>
-<p>最后以原文件名保存</p>
-<p>其中若误将不存在特定sheet的文件放入，做了优化提示</p>
+<p>输入参数：</p>
+<ol>
+<li>待处理EXCEL路径</li>
+<li>要删除的页面的名称</li>
+</ol>
+<p>新建一个列表用来存放路径，指定要删除的sheet名’Test’，在当前程序所在目录遍历xlsx，并取出文件名存入filelist。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换路径</span></span><br><span class="line">path=<span class="string">r&#x27;D:\python\1&#x27;</span></span><br><span class="line"><span class="comment"># 替换要删除的页面名字</span></span><br><span class="line">sheet_name = <span class="string">&#x27;Test&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filelist = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">str</span> = os.path.join(root, name)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">str</span>.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] == <span class="string">&#x27;xlsx&#x27;</span>:</span><br><span class="line">            filelist.append(<span class="built_in">str</span>)</span><br></pre></td></tr></table></figure>
+<p>对filelist进行循环：</p>
+<ul>
+<li>首先打开工作簿</li>
+<li>然后得到要删除的工作表并调用remove方法移除</li>
+<li>最后保存</li>
+</ul>
+<p>其中若误将不存在特定sheet的文件放入，做了优化提示并不予处理。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(filelist)):</span><br><span class="line">    workbook = openpyxl.load_workbook(filelist[i])</span><br><span class="line">    <span class="comment"># 删除目标Sheet</span></span><br><span class="line">    <span class="keyword">if</span> sheet_name <span class="keyword">in</span> workbook:</span><br><span class="line">        worksheet = workbook[sheet_name]</span><br><span class="line">        workbook.remove(worksheet)</span><br><span class="line">        workbook.save(filelist[i])</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27; delete successfully!&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27;的指定Sheet不存在，故不作处理&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <pre><code>.\process data\1 - 副本 (2) - 副本.xlsx的指定Sheet不存在，故不作处理
 .\process data\1 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
@@ -358,6 +356,43 @@ title是鼠标移上去之后显示到名字。</p>
 .\process data\1 - 副本.xlsx的指定Sheet不存在，故不作处理
 .\process data\1.xlsx delete successfully!
 </code></pre>
+<h1 id="matlab方法"><a class="markdownIt-Anchor" href="#matlab方法"></a> Matlab方法</h1>
+<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h2>
+<p>最开始所采用的即为<code>matlab</code>，但是出现版本不一从而删除不了的问题，后已解决。</p>
+<h2 id="环境-2"><a class="markdownIt-Anchor" href="#环境-2"></a> 环境</h2>
+<ul>
+<li>matlab2017</li>
+</ul>
+<h2 id="代码讲解-2"><a class="markdownIt-Anchor" href="#代码讲解-2"></a> 代码讲解</h2>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clc;</span><br><span class="line">clear all;</span><br><span class="line">close all;</span><br></pre></td></tr></table></figure>
+<p>输入参数：</p>
+<ul>
+<li>路径（python和matlab的路径格式貌似有点小区别）</li>
+<li>要删除的页面</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">path=<span class="string">&#x27;D:\matlab\data\&#x27;</span>;</span><br><span class="line">delete_sheet=<span class="string">&#x27;Test&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>在循环体中：</p>
+<ol>
+<li>创建EXCEL对象</li>
+<li>利用<code>Workbooks.Open</code>方法打开EXCEL</li>
+<li>从集合中返回一个对象得到指定sheet</li>
+<li>激活指定sheet，也可理解为选定</li>
+<li><code>Cells.Clear</code>清空该sheet的数据（这里是之前的一个坑，貌似该方法无法直接删除有数据的页面，故在删除页面之前需要一个清空数据的操作）</li>
+<li>保存</li>
+<li>删除空页面</li>
+<li>保存</li>
+<li>关闭</li>
+<li>退出</li>
+<li>删除EXCEL对象</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">file=dir([path <span class="string">&#x27;*.xlsx&#x27;</span>]);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(file)</span><br><span class="line">    x_path=[path file(<span class="built_in">i</span>).name];</span><br><span class="line">    EXCEL=actxserver(<span class="string">&#x27;Excel.Application&#x27;</span>);</span><br><span class="line">    EXCEL.Workbooks.Open(x_path);</span><br><span class="line">    sheet=EXCEL.ActiveWorkbook.Sheets.Item(delete_sheet);</span><br><span class="line">    sheet.Activate;</span><br><span class="line">    sheet.Cells.Clear;</span><br><span class="line">    EXCEL.ActiveWorkbook.Save;</span><br><span class="line">    sheet.Delete;</span><br><span class="line">    EXCEL.ActiveWorkbook.Save;</span><br><span class="line">    EXCEL.ActiveWorkbook.Close;</span><br><span class="line">    EXCEL.Quit;</span><br><span class="line">    EXCEL.delete;</span><br><span class="line">    fprintf(<span class="string">&#x27;%s的指定sheet已删除\n&#x27;</span>,x_path);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;删除完毕\n&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>在调试时，还遇到EXCEL被占用的情况，即运行到一半后报错，是因为创建EXCEL对象后打开未关闭造成的，可用火绒接触占用，或关闭matlab后等待一段时间后重试，个人认为还是没Python便捷。</p>
+<h2 id="参考链接"><a class="markdownIt-Anchor" href="#参考链接"></a> 参考链接：</h2>
+<ul>
+<li><a href="http://bbs.xtjc.com/thread-376095-1-1.html">http://bbs.xtjc.com/thread-376095-1-1.html</a></li>
+<li><a href="https://www.jb51.net/article/219444.htm#:~:text=matlab%E5%92%8CExcel%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%20%28%E9%9D%9Exlsread%E5%92%8Cxlswrite%29%201%201.%E6%89%93%E5%BC%80Excel%202%202.%E6%96%B0%E5%BB%BAworkbook%E5%B7%A5%E4%BD%9C%E7%B0%BF%203,3.%E6%96%B0%E5%BB%BAworksheet%E5%B7%A5%E4%BD%9C%E8%A1%A8%204%203.%E4%BF%AE%E6%94%B9%E5%B7%A5%E4%BD%9C%E8%A1%A8%E5%90%8D%E7%A7%B0%205%204.%E9%80%89%E4%B8%AD%E5%B7%A5%E4%BD%9C%E8%A1%A8%E5%B9%B6%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%206%205.%E9%80%80%E5%87%BA%E5%B9%B6%E4%BF%9D%E5%AD%98">https://www.jb51.net/article/219444.htm#:~:text=matlab和Excel的数据交互操作 (非xlsread和xlswrite) 1 1.打开Excel 2 2.新建workbook工作簿 3,3.新建worksheet工作表 4 3.修改工作表名称 5 4.选中工作表并写入数据 6 5.退出并保存</a></li>
+<li><a href="https://docs.microsoft.com/zh-cn/office/vba/api/excel.worksheets.item">https://docs.microsoft.com/zh-cn/office/vba/api/excel.worksheets.item</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>Python PRJ</category>
@@ -366,6 +401,7 @@ title是鼠标移上去之后显示到名字。</p>
         <tag>github</tag>
         <tag>python</tag>
         <tag>Data process</tag>
+        <tag>matlab</tag>
       </tags>
   </entry>
   <entry>
