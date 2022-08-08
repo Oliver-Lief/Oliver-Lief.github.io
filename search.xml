@@ -1,175 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CNSS_Data_Get</title>
-    <url>/2022/07/31/CNSS-Data-Get/</url>
-    <content><![CDATA[<p>Project url:</p>
-<p><a href="https://github.com/Oliver-Lief/CNSS_Data_Get">https://github.com/Oliver-Lief/CNSS_Data_Get</a></p>
-<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
-<p>This is a project which can get tide data around the world</p>
-<p>源网址如下：<br>
-<a href="https://www.cnss.com.cn/tide/">https://www.cnss.com.cn/tide/</a></p>
-<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> calendar</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
-<p>输入年份和月份和城市代码，将会在json和txt文件夹下自动生成对应数据：</p>
-<p>如：</p>
-<p>2021</p>
-<p>7</p>
-<p>1</p>
-<p>城市代码通过控制台查看，随缘更新城市代码</p>
-]]></content>
-      <categories>
-        <category>Python PRJ</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>Data_get</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>批量删除EXCEL特定页面</title>
-    <url>/2022/08/06/Delete_sheet/</url>
-    <content><![CDATA[<p>project url:</p>
-<p><a href="https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet">https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet</a></p>
-<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
-<p>将待处理的表格放入process data文件夹下</p>
-<p><img src="/2022/08/06/Delete_sheet/ex2.png" alt="ex2"></p>
-<p><img src="/2022/08/06/Delete_sheet/ex1.png" alt="ex1"></p>
-<p>每个表格中均存在名为<code>Test</code>的Sheet名</p>
-<p>填好路径运行即可</p>
-<h2 id="环境"><a class="markdownIt-Anchor" href="#环境"></a> 环境</h2>
-<ul>
-<li>编辑器：vscode</li>
-<li>编译器：python3.10.4</li>
-</ul>
-<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
-<ul>
-<li>openpyxl</li>
-<li>os</li>
-</ul>
-<h2 id="讲解"><a class="markdownIt-Anchor" href="#讲解"></a> 讲解</h2>
-<p>导入包</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">import</span> os</span><br></pre></td></tr></table></figure>
-<p>新建一个列表用来存放路径</p>
-<p>指定要删除的sheet名’Test’</p>
-<p>在当前程序所在目录遍历xlsx，并取出文件名存入filelist</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换路径</span></span><br><span class="line">path=<span class="string">r&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># 替换要删除的页面名字</span></span><br><span class="line">sheet_name = <span class="string">&#x27;Test&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filelist = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">str</span> = os.path.join(root, name)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">str</span>.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] == <span class="string">&#x27;xlsx&#x27;</span>:</span><br><span class="line">            filelist.append(<span class="built_in">str</span>)</span><br><span class="line"></span><br><span class="line">filelist</span><br></pre></td></tr></table></figure>
-<pre><code>['.\\process data\\1 - 副本 (2) - 副本.xlsx',
- '.\\process data\\1 - 副本 (2).xlsx',
- '.\\process data\\1 - 副本 (3).xlsx',
- '.\\process data\\1 - 副本 - 副本 (2).xlsx',
- '.\\process data\\1 - 副本 - 副本 - 副本.xlsx',
- '.\\process data\\1 - 副本 - 副本.xlsx',
- '.\\process data\\1 - 副本.xlsx',
- '.\\process data\\1.xlsx']
-</code></pre>
-<p>对filelist进行循环</p>
-<p>首先打开工作簿</p>
-<p>然后得到要删除的工作表并调用remove方法移除</p>
-<p>最后以原文件名保存</p>
-<p>其中若误将不存在特定sheet的文件放入，做了优化提示</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(filelist)):</span><br><span class="line">    workbook = openpyxl.load_workbook(filelist[i])</span><br><span class="line">    <span class="comment"># 删除目标Sheet</span></span><br><span class="line">    <span class="keyword">if</span> sheet_name <span class="keyword">in</span> workbook:</span><br><span class="line">        worksheet = workbook[sheet_name]</span><br><span class="line">        workbook.remove(worksheet)</span><br><span class="line">        workbook.save(filelist[i])</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27; delete successfully!&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27;的指定Sheet不存在，故不作处理&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<pre><code>.\process data\1 - 副本 (2) - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 (3).xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1.xlsx delete successfully!
-</code></pre>
-]]></content>
-      <categories>
-        <category>Python PRJ</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>Data process</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Markdown语法速查</title>
-    <url>/2022/08/07/Markdown%E8%AF%AD%E6%B3%95%E9%80%9F%E6%9F%A5/</url>
-    <content><![CDATA[<p>每次写东西写着写着就忘语法了，啊啊啊。<br>
-搞个速查笔记放博客里，省的百度有时候还百度不到。</p>
-<h1 id="六级标题语法"><a class="markdownIt-Anchor" href="#六级标题语法"></a> 六级标题语法</h1>
-<p>记得住，略。</p>
-<h1 id="段落语法"><a class="markdownIt-Anchor" href="#段落语法"></a> 段落语法</h1>
-<p>这个很迷，每次都喜欢按tab缩进，实际上是个错的，段与段用一个空行隔开就行了。</p>
-<h1 id="换行语法"><a class="markdownIt-Anchor" href="#换行语法"></a> 换行语法</h1>
-<p>回车完事。</p>
-<h1 id="强调语法"><a class="markdownIt-Anchor" href="#强调语法"></a> 强调语法</h1>
-<p>粗体：单星<br>
-斜体：双星<br>
-粗斜体：三星<br>
-貌似Ctrl+B/I 就行了，和Word一样</p>
-<h1 id="引用语法"><a class="markdownIt-Anchor" href="#引用语法"></a> 引用语法</h1>
-<p>用&gt;，如果有多重引用，用&gt;&gt;</p>
-<h1 id="列表语法"><a class="markdownIt-Anchor" href="#列表语法"></a> 列表语法</h1>
-<p>有序无序两种，都记得住。记得加空格就行了。</p>
-<h1 id="代码语法"><a class="markdownIt-Anchor" href="#代码语法"></a> 代码语法</h1>
-<p>用反引号` `，<code>就像这样</code>，每次都记成回车旁边的那个，应该是左上方的Tab上面的那个</p>
-<h1 id="分隔语法"><a class="markdownIt-Anchor" href="#分隔语法"></a> 分隔语法</h1>
-<p>三道杠。</p>
-<h1 id="链接语法"><a class="markdownIt-Anchor" href="#链接语法"></a> 链接语法</h1>
-<p>[超链接显示名](超链接地址 “超链接title”)<br>
-title是鼠标移上去之后显示到名字。</p>
-<h1 id="图片语法"><a class="markdownIt-Anchor" href="#图片语法"></a> 图片语法</h1>
-<p>![图片名字](图片链接 “图片title”)</p>
-<p>还有一个是点图片弹链接的那种</p>
-<p>[![图片名字](图片链接 “图片title”)](弹出的链接)</p>
-<h1 id="转义字符语法"><a class="markdownIt-Anchor" href="#转义字符语法"></a> 转义字符语法</h1>
-<p>和C一样</p>
-<h1 id="内嵌html标签"><a class="markdownIt-Anchor" href="#内嵌html标签"></a> 内嵌HTML标签</h1>
-<p>懒得学</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>markdown</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
-    <url>/2022/07/28/README/</url>
-    <content><![CDATA[<p><strong>Welcome to my blog:</strong></p>
-<p><a href="https://oliver-lief.github.io/">https://oliver-lief.github.io/</a></p>
-<p>if you have any questions in reading my projects，you can email me on <a href="mailto:lief53638332@yeah.net">lief53638332@yeah.net</a></p>
+    <url>/2022/07/28/Hello/</url>
+    <content><![CDATA[<h2 id="welcome-to-my-blog"><a class="markdownIt-Anchor" href="#welcome-to-my-blog"></a> <strong>Welcome to my blog:</strong></h2>
+<blockquote>
+<p>If you want to find something you are interested in, please check ‘分类’ <br>
+and if you have any questions in reading my projects, you can email me on <a href="mailto:lief53638332@yeah.net">lief53638332@yeah.net</a></p>
+</blockquote>
 ]]></content>
-      <categories>
-        <category>ReadMe</category>
-      </categories>
-      <tags>
-        <tag>HelloWorld</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>U-disk-capacity-conversion</title>
-    <url>/2022/08/06/U-disk-capacity-conversion/</url>
-    <content><![CDATA[<p>project url:</p>
-<p><a href="https://github.com/Oliver-Lief/U-disk-capacity-conversion">https://github.com/Oliver-Lief/U-disk-capacity-conversion</a></p>
-<p>我们都知道，存储器的容量厂家和电脑的计算是不一致的，主要表现在电脑显示的容量小于你所购买的任容量，如果购买了U盘或硬盘，怎么知道容量是否正确，本项目帮你解决。</p>
-<h2 id="项目依赖"><a class="markdownIt-Anchor" href="#项目依赖"></a> 项目依赖</h2>
-<p>本项目依赖Pyqt5</p>
-<p>win下：</p>
-<p><code>pip install PyQt5</code></p>
-<p><code>pip install pyqt5-tools</code></p>
-<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
-<p>然后运行U_disk.py即可</p>
-<p><img src="/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png" alt="U-disk-capacity-conversion"></p>
-]]></content>
-      <categories>
-        <category>Python PRJ</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>Interests</tag>
-      </tags>
   </entry>
   <entry>
     <title>搭建博客——hexo应用next主题</title>
@@ -422,6 +261,163 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
       </categories>
       <tags>
         <tag>劳动合同</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown语法速查</title>
+    <url>/2022/08/07/Markdown%E8%AF%AD%E6%B3%95%E9%80%9F%E6%9F%A5/</url>
+    <content><![CDATA[<p>每次写东西写着写着就忘语法了，啊啊啊。<br>
+搞个速查笔记放博客里，省的百度有时候还百度不到。</p>
+<h1 id="六级标题语法"><a class="markdownIt-Anchor" href="#六级标题语法"></a> 六级标题语法</h1>
+<p>记得住，略。</p>
+<h1 id="段落语法"><a class="markdownIt-Anchor" href="#段落语法"></a> 段落语法</h1>
+<p>这个很迷，每次都喜欢按tab缩进，实际上是个错的，段与段用一个空行隔开就行了。</p>
+<h1 id="换行语法"><a class="markdownIt-Anchor" href="#换行语法"></a> 换行语法</h1>
+<p>回车完事。</p>
+<h1 id="强调语法"><a class="markdownIt-Anchor" href="#强调语法"></a> 强调语法</h1>
+<p>粗体：单星<br>
+斜体：双星<br>
+粗斜体：三星<br>
+貌似Ctrl+B/I 就行了，和Word一样</p>
+<h1 id="引用语法"><a class="markdownIt-Anchor" href="#引用语法"></a> 引用语法</h1>
+<p>用&gt;，如果有多重引用，用&gt;&gt;</p>
+<h1 id="列表语法"><a class="markdownIt-Anchor" href="#列表语法"></a> 列表语法</h1>
+<p>有序无序两种，都记得住。记得加空格就行了。</p>
+<h1 id="代码语法"><a class="markdownIt-Anchor" href="#代码语法"></a> 代码语法</h1>
+<p>用反引号` `，<code>就像这样</code>，每次都记成回车旁边的那个，应该是左上方的Tab上面的那个</p>
+<h1 id="分隔语法"><a class="markdownIt-Anchor" href="#分隔语法"></a> 分隔语法</h1>
+<p>三道杠。</p>
+<h1 id="链接语法"><a class="markdownIt-Anchor" href="#链接语法"></a> 链接语法</h1>
+<p>[超链接显示名](超链接地址 “超链接title”)<br>
+title是鼠标移上去之后显示到名字。</p>
+<h1 id="图片语法"><a class="markdownIt-Anchor" href="#图片语法"></a> 图片语法</h1>
+<p>![图片名字](图片链接 “图片title”)</p>
+<p>还有一个是点图片弹链接的那种</p>
+<p>[![图片名字](图片链接 “图片title”)](弹出的链接)</p>
+<h1 id="转义字符语法"><a class="markdownIt-Anchor" href="#转义字符语法"></a> 转义字符语法</h1>
+<p>和C一样</p>
+<h1 id="内嵌html标签"><a class="markdownIt-Anchor" href="#内嵌html标签"></a> 内嵌HTML标签</h1>
+<p>懒得学</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>批量删除EXCEL特定页面</title>
+    <url>/2022/08/06/Delete_sheet/</url>
+    <content><![CDATA[<p>project url:</p>
+<p><a href="https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet">https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet</a></p>
+<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
+<p>将待处理的表格放入process data文件夹下</p>
+<p><img src="/2022/08/06/Delete_sheet/ex2.png" alt="ex2"></p>
+<p><img src="/2022/08/06/Delete_sheet/ex1.png" alt="ex1"></p>
+<p>每个表格中均存在名为<code>Test</code>的Sheet名</p>
+<p>填好路径运行即可</p>
+<h2 id="环境"><a class="markdownIt-Anchor" href="#环境"></a> 环境</h2>
+<ul>
+<li>编辑器：vscode</li>
+<li>编译器：python3.10.4</li>
+</ul>
+<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
+<ul>
+<li>openpyxl</li>
+<li>os</li>
+</ul>
+<h2 id="讲解"><a class="markdownIt-Anchor" href="#讲解"></a> 讲解</h2>
+<p>导入包</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">import</span> os</span><br></pre></td></tr></table></figure>
+<p>新建一个列表用来存放路径</p>
+<p>指定要删除的sheet名’Test’</p>
+<p>在当前程序所在目录遍历xlsx，并取出文件名存入filelist</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换路径</span></span><br><span class="line">path=<span class="string">r&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># 替换要删除的页面名字</span></span><br><span class="line">sheet_name = <span class="string">&#x27;Test&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filelist = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">str</span> = os.path.join(root, name)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">str</span>.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] == <span class="string">&#x27;xlsx&#x27;</span>:</span><br><span class="line">            filelist.append(<span class="built_in">str</span>)</span><br><span class="line"></span><br><span class="line">filelist</span><br></pre></td></tr></table></figure>
+<pre><code>['.\\process data\\1 - 副本 (2) - 副本.xlsx',
+ '.\\process data\\1 - 副本 (2).xlsx',
+ '.\\process data\\1 - 副本 (3).xlsx',
+ '.\\process data\\1 - 副本 - 副本 (2).xlsx',
+ '.\\process data\\1 - 副本 - 副本 - 副本.xlsx',
+ '.\\process data\\1 - 副本 - 副本.xlsx',
+ '.\\process data\\1 - 副本.xlsx',
+ '.\\process data\\1.xlsx']
+</code></pre>
+<p>对filelist进行循环</p>
+<p>首先打开工作簿</p>
+<p>然后得到要删除的工作表并调用remove方法移除</p>
+<p>最后以原文件名保存</p>
+<p>其中若误将不存在特定sheet的文件放入，做了优化提示</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(filelist)):</span><br><span class="line">    workbook = openpyxl.load_workbook(filelist[i])</span><br><span class="line">    <span class="comment"># 删除目标Sheet</span></span><br><span class="line">    <span class="keyword">if</span> sheet_name <span class="keyword">in</span> workbook:</span><br><span class="line">        worksheet = workbook[sheet_name]</span><br><span class="line">        workbook.remove(worksheet)</span><br><span class="line">        workbook.save(filelist[i])</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27; delete successfully!&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27;的指定Sheet不存在，故不作处理&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>.\process data\1 - 副本 (2) - 副本.xlsx的指定Sheet不存在，故不作处理
+.\process data\1 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
+.\process data\1 - 副本 (3).xlsx的指定Sheet不存在，故不作处理
+.\process data\1 - 副本 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
+.\process data\1 - 副本 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理
+.\process data\1 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理
+.\process data\1 - 副本.xlsx的指定Sheet不存在，故不作处理
+.\process data\1.xlsx delete successfully!
+</code></pre>
+]]></content>
+      <categories>
+        <category>Python PRJ</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>Data process</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>U-disk-capacity-conversion</title>
+    <url>/2022/08/06/U-disk-capacity-conversion/</url>
+    <content><![CDATA[<p>project url:</p>
+<p><a href="https://github.com/Oliver-Lief/U-disk-capacity-conversion">https://github.com/Oliver-Lief/U-disk-capacity-conversion</a></p>
+<p>我们都知道，存储器的容量厂家和电脑的计算是不一致的，主要表现在电脑显示的容量小于你所购买的任容量，如果购买了U盘或硬盘，怎么知道容量是否正确，本项目帮你解决。</p>
+<h2 id="项目依赖"><a class="markdownIt-Anchor" href="#项目依赖"></a> 项目依赖</h2>
+<p>本项目依赖Pyqt5</p>
+<p>win下：</p>
+<p><code>pip install PyQt5</code></p>
+<p><code>pip install pyqt5-tools</code></p>
+<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
+<p>然后运行U_disk.py即可</p>
+<p><img src="/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png" alt="U-disk-capacity-conversion"></p>
+]]></content>
+      <categories>
+        <category>Python PRJ</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>Interests</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CNSS_Data_Get</title>
+    <url>/2022/07/31/CNSS-Data-Get/</url>
+    <content><![CDATA[<p>Project url:</p>
+<p><a href="https://github.com/Oliver-Lief/CNSS_Data_Get">https://github.com/Oliver-Lief/CNSS_Data_Get</a></p>
+<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
+<p>This is a project which can get tide data around the world</p>
+<p>源网址如下：<br>
+<a href="https://www.cnss.com.cn/tide/">https://www.cnss.com.cn/tide/</a></p>
+<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> calendar</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
+<p>输入年份和月份和城市代码，将会在json和txt文件夹下自动生成对应数据：</p>
+<p>如：</p>
+<p>2021</p>
+<p>7</p>
+<p>1</p>
+<p>城市代码通过控制台查看，随缘更新城市代码</p>
+]]></content>
+      <categories>
+        <category>Python PRJ</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>Data_get</tag>
       </tags>
   </entry>
   <entry>
