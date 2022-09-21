@@ -18,32 +18,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"oliver-lief.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="U盘，硬盘等磁盘实际空间计算。">
+    <meta name="description" content="解决利用gcc编译C&#x2F;C++语言时cmd出现乱码的问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="U-disk-capacity-conversion">
-<meta property="og:url" content="https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/index.html">
+<meta property="og:title" content="解决C语言编程中cmd乱码问题">
+<meta property="og:url" content="https://oliver-lief.github.io/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/index.html">
 <meta property="og:site_name" content="Lief&#39;s Blog">
-<meta property="og:description" content="U盘，硬盘等磁盘实际空间计算。">
+<meta property="og:description" content="解决利用gcc编译C&#x2F;C++语言时cmd出现乱码的问题">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png">
-<meta property="article:published_time" content="2022-08-06T00:09:06.000Z">
-<meta property="article:modified_time" content="2022-08-07T01:20:42.107Z">
+<meta property="article:published_time" content="2022-09-21T11:12:53.000Z">
+<meta property="article:modified_time" content="2022-09-21T11:14:15.328Z">
 <meta property="article:author" content="Oliver-Lief">
-<meta property="article:tag" content="github">
-<meta property="article:tag" content="python">
-<meta property="article:tag" content="Interests">
+<meta property="article:tag" content="cmd">
+<meta property="article:tag" content="C&#x2F;C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png">
 
 
-<link rel="canonical" href="https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/">
+<link rel="canonical" href="https://oliver-lief.github.io/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/","path":"2022/08/06/U-disk-capacity-conversion/","title":"U-disk-capacity-conversion"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://oliver-lief.github.io/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/","path":"2022/09/21/解决cmd中文乱码/","title":"解决C语言编程中cmd乱码问题"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>U-disk-capacity-conversion | Lief's Blog</title>
+<title>解决C语言编程中cmd乱码问题 | Lief's Blog</title>
   
 
 
@@ -146,7 +143,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text"> 项目依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C"><span class="nav-number">2.</span> <span class="nav-text"> 运行</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%B1%E7%A0%81%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.</span> <span class="nav-text"> 乱码原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text"> 解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%93%E5%85%A5chcp-65001%E4%BD%86%E6%98%AF%E5%8F%AA%E5%9C%A8%E5%BD%93%E5%89%8D%E7%AA%97%E5%8F%A3%E6%9C%89%E6%95%88%E4%B8%8D%E7%BB%8F%E5%B8%B8%E4%BD%BF%E7%94%A8cmd%E7%9A%84%E7%AB%A5%E9%9E%8B%E5%8F%AF%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text"> 1.命令行输入chcp 65001，但是只在当前窗口有效，不经常使用cmd的童鞋可使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E7%BC%96%E5%86%99c%E8%AF%AD%E8%A8%80%E8%84%9A%E6%9C%AC%E6%AF%8F%E6%AC%A1%E5%BC%95%E5%85%A5%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8D%B3%E5%8F%AF%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.</span> <span class="nav-text"> 2.编写C语言脚本，每次引入头文件即可（建议使用）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E5%88%A9%E7%94%A8%E5%A4%96%E7%BD%AE%E7%BC%96%E8%BE%91%E5%99%A8%E5%A6%82vscode%E5%8F%AF%E5%9C%A8%E4%B8%8B%E6%96%B9%E7%9A%84%E7%BC%96%E7%A0%81%E5%A4%84%E6%89%8B%E5%8A%A8%E4%BF%AE%E6%94%B9%E4%B8%BAgbk%E7%BC%96%E7%A0%81%E6%88%96%E8%80%85%E5%9C%A8settingjson%E9%87%8C%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B"><span class="nav-number">2.3.</span> <span class="nav-text"> 3.利用外置编辑器，如vscode，可在下方的编码处手动修改为gbk编码，或者在setting.json里配置如下：</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -224,7 +221,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/">
+    <link itemprop="mainEntityOfPage" href="https://oliver-lief.github.io/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/pikapi.png">
@@ -237,12 +234,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="U-disk-capacity-conversion | Lief's Blog">
-      <meta itemprop="description" content="U盘，硬盘等磁盘实际空间计算。">
+      <meta itemprop="name" content="解决C语言编程中cmd乱码问题 | Lief's Blog">
+      <meta itemprop="description" content="解决利用gcc编译C/C++语言时cmd出现乱码的问题">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          U-disk-capacity-conversion
+          解决C语言编程中cmd乱码问题
         </h1>
 
         <div class="post-meta-container">
@@ -252,15 +249,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-08-06 08:09:06" itemprop="dateCreated datePublished" datetime="2022-08-06T08:09:06+08:00">2022-08-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-08-07 09:20:42" itemprop="dateModified" datetime="2022-08-07T09:20:42+08:00">2022-08-07</time>
+      <time title="创建时间：2022-09-21 19:12:53 / 修改时间：19:14:15" itemprop="dateCreated datePublished" datetime="2022-09-21T19:12:53+08:00">2022-09-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -268,7 +259,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Python-PRJ/" itemprop="url" rel="index"><span itemprop="name">Python PRJ</span></a>
+          <a href="/categories/program/" itemprop="url" rel="index"><span itemprop="name">program</span></a>
         </span>
     </span>
 
@@ -286,7 +277,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>219</span>
+      <span>913</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -297,7 +288,7 @@
     </span>
 </div>
 
-            <div class="post-description">U盘，硬盘等磁盘实际空间计算。</div>
+            <div class="post-description">解决利用gcc编译C/C++语言时cmd出现乱码的问题</div>
           
         </div>
       </header>
@@ -306,17 +297,32 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>project url:</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/Oliver-Lief/U-disk-capacity-conversion">https://github.com/Oliver-Lief/U-disk-capacity-conversion</a></p>
-<p>我们都知道，存储器的容量厂家和电脑的计算是不一致的，主要表现在电脑显示的容量小于你所购买的任容量，如果购买了U盘或硬盘，怎么知道容量是否正确，本项目帮你解决。</p>
-<h2 id="项目依赖"><a class="markdownIt-Anchor" href="#项目依赖"></a> 项目依赖</h2>
-<p>本项目依赖Pyqt5</p>
-<p>win下：</p>
-<p><code>pip install PyQt5</code></p>
-<p><code>pip install pyqt5-tools</code></p>
-<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
-<p>然后运行U_disk.py即可</p>
-<p><img src="/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png" alt="U-disk-capacity-conversion"></p>
+        <h3 id="乱码原因"><a class="markdownIt-Anchor" href="#乱码原因"></a> 乱码原因</h3>
+<p><code>Windows</code>平台控制台默认使用<strong>WINDOWS-936代码页</strong>(即<strong>GBK编码</strong>)</p>
+<p>如果用<code>linux</code>开发就没有这些问题</p>
+<p>在命令行模式下，输入<code>chcp</code>指令即可查看当前代码页所使用的编码。</p>
+<h3 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h3>
+<h4 id="1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"><a class="markdownIt-Anchor" href="#1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"></a> 1.命令行输入<code>chcp 65001</code>，但是只在当前窗口有效，不经常使用<code>cmd</code>的童鞋可使用</h4>
+<p>部分字符编码对应代码：</p>
+<blockquote>
+<p>65001——UTF-8<br>
+936——简体中文<br>
+950——繁体中文<br>
+437——美国/加拿大英语</p>
+</blockquote>
+<h4 id="2编写c语言脚本每次引入头文件即可建议使用"><a class="markdownIt-Anchor" href="#2编写c语言脚本每次引入头文件即可建议使用"></a> 2.编写C语言脚本，每次引入头文件即可（建议使用）</h4>
+<p>编写<code>win_utf8_cmd.h</code>的文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>编写<code>win_utf8_cmd.c</code>的文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    system(<span class="string">&quot;chcp 65001 &amp; cls&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编写<code>main.c</code>文件测试</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;win_utf8_cmd.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    win_utf8_cmd();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中文测试&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc win_utf8_cmd.c main.c <span class="literal">-o</span> main</span><br><span class="line">main.exe</span><br></pre></td></tr></table></figure>
+<p>编译执行即可成功输出中文</p>
+<h4 id="3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"><a class="markdownIt-Anchor" href="#3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"></a> 3.利用外置编辑器，如<code>vscode</code>，可在下方的编码处手动修改为<code>gbk</code>编码，或者在<code>setting.json</code>里配置如下：</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;[cpp]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br><span class="line"> <span class="string">&quot;[c]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+<p>可一劳永逸的解决问题</p>
+<p>WARNING：网上其他的方法，像cmd窗口点默认值更改亲测win10、win11不可用，且涉及到注册表的修改，如果不懂注册表机制不建议使用。</p>
 
     </div>
 
@@ -330,11 +336,11 @@
 <div class="post-copyright">
 <ul>
   <li class="post-copyright-author">
-      <strong>原作者： </strong>Lief
+      <strong>本文作者： </strong>Oliver-Lief
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/" title="U-disk-capacity-conversion">https://oliver-lief.github.io/2022/08/06/U-disk-capacity-conversion/</a>
+      <a href="https://oliver-lief.github.io/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/" title="解决C语言编程中cmd乱码问题">https://oliver-lief.github.io/2022/09/21/解决cmd中文乱码/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -343,23 +349,19 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/github/" rel="tag"># github</a>
-              <a href="/tags/python/" rel="tag"># python</a>
-              <a href="/tags/Interests/" rel="tag"># Interests</a>
+              <a href="/tags/cmd/" rel="tag"># cmd</a>
+              <a href="/tags/C-C/" rel="tag"># C/C++</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/07/31/CNSS-Data-Get/" rel="prev" title="CNSS_Data_Get">
-                  <i class="fa fa-chevron-left"></i> CNSS_Data_Get
+                <a href="/2022/08/09/%E8%BD%BB%E5%B0%8F%E8%AF%B4%E2%80%94%E2%80%94%E8%B7%A8%E8%B6%8A%E6%97%B6%E7%A9%BA%E7%9A%84%E5%B0%91%E5%A5%B3/" rel="prev" title="轻小说1——无法触碰的恋人">
+                  <i class="fa fa-chevron-left"></i> 轻小说1——无法触碰的恋人
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/08/06/Delete_sheet/" rel="next" title="批量删除EXCEL特定页面">
-                  批量删除EXCEL特定页面 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

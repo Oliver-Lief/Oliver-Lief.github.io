@@ -11,6 +11,44 @@ and if you have any questions in reading my projects, you can email me on <a hre
 ]]></content>
   </entry>
   <entry>
+    <title>解决C语言编程中cmd乱码问题</title>
+    <url>/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h3 id="乱码原因"><a class="markdownIt-Anchor" href="#乱码原因"></a> 乱码原因</h3>
+<p><code>Windows</code>平台控制台默认使用<strong>WINDOWS-936代码页</strong>(即<strong>GBK编码</strong>)</p>
+<p>如果用<code>linux</code>开发就没有这些问题</p>
+<p>在命令行模式下，输入<code>chcp</code>指令即可查看当前代码页所使用的编码。</p>
+<h3 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h3>
+<h4 id="1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"><a class="markdownIt-Anchor" href="#1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"></a> 1.命令行输入<code>chcp 65001</code>，但是只在当前窗口有效，不经常使用<code>cmd</code>的童鞋可使用</h4>
+<p>部分字符编码对应代码：</p>
+<blockquote>
+<p>65001——UTF-8<br>
+936——简体中文<br>
+950——繁体中文<br>
+437——美国/加拿大英语</p>
+</blockquote>
+<h4 id="2编写c语言脚本每次引入头文件即可建议使用"><a class="markdownIt-Anchor" href="#2编写c语言脚本每次引入头文件即可建议使用"></a> 2.编写C语言脚本，每次引入头文件即可（建议使用）</h4>
+<p>编写<code>win_utf8_cmd.h</code>的文件：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>编写<code>win_utf8_cmd.c</code>的文件：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    system(<span class="string">&quot;chcp 65001 &amp; cls&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编写<code>main.c</code>文件测试</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;win_utf8_cmd.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    win_utf8_cmd();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中文测试&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">gcc win_utf8_cmd.c main.c <span class="literal">-o</span> main</span><br><span class="line">main.exe</span><br></pre></td></tr></table></figure>
+<p>编译执行即可成功输出中文</p>
+<h4 id="3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"><a class="markdownIt-Anchor" href="#3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"></a> 3.利用外置编辑器，如<code>vscode</code>，可在下方的编码处手动修改为<code>gbk</code>编码，或者在<code>setting.json</code>里配置如下：</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;[cpp]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br><span class="line"> <span class="string">&quot;[c]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+<p>可一劳永逸的解决问题</p>
+<p>WARNING：网上其他的方法，像cmd窗口点默认值更改亲测win10、win11不可用，且涉及到注册表的修改，如果不懂注册表机制不建议使用。</p>
+]]></content>
+      <categories>
+        <category>program</category>
+      </categories>
+      <tags>
+        <tag>cmd</tag>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>轻小说1——无法触碰的恋人</title>
     <url>/2022/08/09/%E8%BD%BB%E5%B0%8F%E8%AF%B4%E2%80%94%E2%80%94%E8%B7%A8%E8%B6%8A%E6%97%B6%E7%A9%BA%E7%9A%84%E5%B0%91%E5%A5%B3/</url>
     <content><![CDATA[<p>未步，普通女高中生，梦想着将来能成为科幻小说作家。由于父亲早逝，和母亲两人一起生活。未步的母亲多年后找到想要再婚的对象，并希望介绍给未步认识。未步觉得这是对父亲的背叛，无法接受现实，在会面时跑了出来。</p>
