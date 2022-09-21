@@ -1,68 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2022/07/28/Hello/</url>
-    <content><![CDATA[<h2 id="welcome-to-my-blog"><a class="markdownIt-Anchor" href="#welcome-to-my-blog"></a> <strong>Welcome to my blog:</strong></h2>
-<blockquote>
-<p>If you want to find something you are interested in, please check ‘分类’ <br>
-and if you have any questions in reading my projects, you can email me on <a href="mailto:lief53638332@yeah.net">lief53638332@yeah.net</a></p>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>解决C语言编程中cmd乱码问题</title>
-    <url>/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<h3 id="乱码原因"><a class="markdownIt-Anchor" href="#乱码原因"></a> 乱码原因</h3>
-<p><code>Windows</code>平台控制台默认使用<strong>WINDOWS-936代码页</strong>(即<strong>GBK编码</strong>)</p>
-<p>如果用<code>linux</code>开发就没有这些问题</p>
-<p>在命令行模式下，输入<code>chcp</code>指令即可查看当前代码页所使用的编码。</p>
-<h3 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h3>
-<h4 id="1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"><a class="markdownIt-Anchor" href="#1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"></a> 1.命令行输入<code>chcp 65001</code>，但是只在当前窗口有效，不经常使用<code>cmd</code>的童鞋可使用</h4>
-<p>部分字符编码对应代码：</p>
-<blockquote>
-<p>65001——UTF-8<br>
-936——简体中文<br>
-950——繁体中文<br>
-437——美国/加拿大英语</p>
-</blockquote>
-<h4 id="2编写c语言脚本每次引入头文件即可建议使用"><a class="markdownIt-Anchor" href="#2编写c语言脚本每次引入头文件即可建议使用"></a> 2.编写C语言脚本，每次引入头文件即可（建议使用）</h4>
-<p>编写<code>win_utf8_cmd.h</code>的文件：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>编写<code>win_utf8_cmd.c</code>的文件：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    system(<span class="string">&quot;chcp 65001 &amp; cls&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>编写<code>main.c</code>文件测试</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;win_utf8_cmd.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    win_utf8_cmd();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中文测试&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">gcc win_utf8_cmd.c main.c <span class="literal">-o</span> main</span><br><span class="line">main.exe</span><br></pre></td></tr></table></figure>
-<p>编译执行即可成功输出中文</p>
-<h4 id="3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"><a class="markdownIt-Anchor" href="#3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"></a> 3.利用外置编辑器，如<code>vscode</code>，可在下方的编码处手动修改为<code>gbk</code>编码，或者在<code>setting.json</code>里配置如下：</h4>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;[cpp]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br><span class="line"> <span class="string">&quot;[c]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
-<p>可一劳永逸的解决问题</p>
-<p>WARNING：网上其他的方法，像cmd窗口点默认值更改亲测win10、win11不可用，且涉及到注册表的修改，如果不懂注册表机制不建议使用。</p>
+    <title>CNSS_Data_Get</title>
+    <url>/2022/07/31/CNSS-Data-Get/</url>
+    <content><![CDATA[<p>Project url:</p>
+<p><a href="https://github.com/Oliver-Lief/CNSS_Data_Get">https://github.com/Oliver-Lief/CNSS_Data_Get</a></p>
+<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
+<p>This is a project which can get tide data around the world</p>
+<p>源网址如下：<br>
+<a href="https://www.cnss.com.cn/tide/">https://www.cnss.com.cn/tide/</a></p>
+<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> calendar</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
+<p>输入年份和月份和城市代码，将会在json和txt文件夹下自动生成对应数据：</p>
+<p>如：</p>
+<p>2021</p>
+<p>7</p>
+<p>1</p>
+<p>城市代码通过控制台查看，随缘更新城市代码</p>
 ]]></content>
       <categories>
-        <category>program</category>
+        <category>Python PRJ</category>
       </categories>
       <tags>
-        <tag>cmd</tag>
-        <tag>C/C++</tag>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>Data_get</tag>
       </tags>
   </entry>
   <entry>
-    <title>轻小说1——无法触碰的恋人</title>
-    <url>/2022/08/09/%E8%BD%BB%E5%B0%8F%E8%AF%B4%E2%80%94%E2%80%94%E8%B7%A8%E8%B6%8A%E6%97%B6%E7%A9%BA%E7%9A%84%E5%B0%91%E5%A5%B3/</url>
-    <content><![CDATA[<p>未步，普通女高中生，梦想着将来能成为科幻小说作家。由于父亲早逝，和母亲两人一起生活。未步的母亲多年后找到想要再婚的对象，并希望介绍给未步认识。未步觉得这是对父亲的背叛，无法接受现实，在会面时跑了出来。</p>
-<p>正到楼梯时，一场地震突然来临，猝不及防的未步没抓牢手机，顺着消失在一团光芒中。</p>
-<hr>
-<p>地球另一处</p>
-<p>宫田时次郎</p>
+    <title>批量删除EXCEL特定页面</title>
+    <url>/2022/08/06/Delete_sheet/</url>
+    <content><![CDATA[<p>project url:</p>
+<p><a href="https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet">https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet</a></p>
+<p>小伙伴提出的一个想法，因平时只涉及到EXCEL的读取和数据计算操作，并不涉及页面的删除，故在遇到该问题时踩了很多坑，在此记录。并在此感谢<strong>Cassieleee</strong>问题的提出和帮助。</p>
+<h2 id="python方法"><a class="markdownIt-Anchor" href="#python方法"></a> Python方法</h2>
+<h3 id="使用说明"><a class="markdownIt-Anchor" href="#使用说明"></a> 使用说明</h3>
+<p>将待处理的表格放入任意文件夹下。</p>
+<p><img src="/2022/08/06/Delete_sheet/ex2.png" alt="ex2"></p>
+<p><img src="/2022/08/06/Delete_sheet/ex1.png" alt="ex1"></p>
+<p>每个表格中均存在名为<code>Test</code>的Sheet名，将要删除该页面。</p>
+<p>填好路径运行即可</p>
+<h3 id="环境"><a class="markdownIt-Anchor" href="#环境"></a> 环境</h3>
+<ul>
+<li>编辑器：vscode</li>
+<li>编译器：python3.10.4</li>
+</ul>
+<h3 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h3>
+<ul>
+<li>openpyxl</li>
+<li>os</li>
+</ul>
+<h3 id="代码讲解"><a class="markdownIt-Anchor" href="#代码讲解"></a> 代码讲解</h3>
+<p>导入包</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">import</span> os</span><br></pre></td></tr></table></figure>
+<p>输入参数：</p>
+<ol>
+<li>待处理EXCEL路径</li>
+<li>要删除的页面的名称</li>
+</ol>
+<p>新建一个列表用来存放路径，指定要删除的sheet名’Test’，在当前程序所在目录遍历xlsx，并取出文件名存入filelist。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换路径</span></span><br><span class="line">path=<span class="string">r&#x27;D:\python\1&#x27;</span></span><br><span class="line"><span class="comment"># 替换要删除的页面名字</span></span><br><span class="line">sheet_name = <span class="string">&#x27;Test&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filelist = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">str</span> = os.path.join(root, name)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">str</span>.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] == <span class="string">&#x27;xlsx&#x27;</span>:</span><br><span class="line">            filelist.append(<span class="built_in">str</span>)</span><br></pre></td></tr></table></figure>
+<p>对filelist进行循环：</p>
+<ul>
+<li>首先打开工作簿</li>
+<li>然后得到要删除的工作表并调用remove方法移除</li>
+<li>最后保存</li>
+</ul>
+<p>其中若误将不存在特定sheet的文件放入，做了优化提示并不予处理。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(filelist)):</span><br><span class="line">    workbook = openpyxl.load_workbook(filelist[i])</span><br><span class="line">    <span class="comment"># 删除目标Sheet</span></span><br><span class="line">    <span class="keyword">if</span> sheet_name <span class="keyword">in</span> workbook:</span><br><span class="line">        worksheet = workbook[sheet_name]</span><br><span class="line">        workbook.remove(worksheet)</span><br><span class="line">        workbook.save(filelist[i])</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27; delete successfully!&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27;的指定Sheet不存在，故不作处理&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">.\process data\<span class="number">1</span> - 副本 (<span class="number">2</span>) - 副本.xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1</span> - 副本 (<span class="number">2</span>).xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1</span> - 副本 (<span class="number">3</span>).xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1</span> - 副本 - 副本 (<span class="number">2</span>).xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1</span> - 副本 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1</span> - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1</span> - 副本.xlsx的指定Sheet不存在，故不作处理</span><br><span class="line">.\process data\<span class="number">1.</span>xlsx delete successfully!</span><br></pre></td></tr></table></figure>
+<h2 id="matlab方法"><a class="markdownIt-Anchor" href="#matlab方法"></a> Matlab方法</h2>
+<h3 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h3>
+<p>最开始所采用的即为<code>matlab</code>，但是出现版本不一从而删除不了的问题，后已解决。</p>
+<h3 id="环境-2"><a class="markdownIt-Anchor" href="#环境-2"></a> 环境</h3>
+<ul>
+<li>matlab2017</li>
+</ul>
+<h3 id="代码讲解-2"><a class="markdownIt-Anchor" href="#代码讲解-2"></a> 代码讲解</h3>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clc;</span><br><span class="line">clear all;</span><br><span class="line">close all;</span><br></pre></td></tr></table></figure>
+<p>输入参数：</p>
+<ul>
+<li>路径（python和matlab的路径格式貌似有点小区别）</li>
+<li>要删除的页面</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">path=<span class="string">&#x27;D:\matlab\data\&#x27;</span>;</span><br><span class="line">delete_sheet=<span class="string">&#x27;Test&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>在循环体中：</p>
+<ol>
+<li>创建EXCEL对象</li>
+<li>利用<code>Workbooks.Open</code>方法打开EXCEL</li>
+<li>从集合中返回一个对象得到指定sheet</li>
+<li>激活指定sheet，也可理解为选定</li>
+<li><code>Cells.Clear</code>清空该sheet的数据（这里是之前的一个坑，貌似该方法无法直接删除有数据的页面，故在删除页面之前需要一个清空数据的操作）</li>
+<li>保存</li>
+<li>删除空页面</li>
+<li>保存</li>
+<li>关闭</li>
+<li>退出</li>
+<li>删除EXCEL对象</li>
+</ol>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">file=dir([path <span class="string">&#x27;*.xlsx&#x27;</span>]);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(file)</span><br><span class="line">    x_path=[path file(<span class="built_in">i</span>).name];</span><br><span class="line">    EXCEL=actxserver(<span class="string">&#x27;Excel.Application&#x27;</span>);</span><br><span class="line">    EXCEL.Workbooks.Open(x_path);</span><br><span class="line">    sheet=EXCEL.ActiveWorkbook.Sheets.Item(delete_sheet);</span><br><span class="line">    sheet.Activate;</span><br><span class="line">    sheet.Cells.Clear;</span><br><span class="line">    EXCEL.ActiveWorkbook.Save;</span><br><span class="line">    sheet.Delete;</span><br><span class="line">    EXCEL.ActiveWorkbook.Save;</span><br><span class="line">    EXCEL.ActiveWorkbook.Close;</span><br><span class="line">    EXCEL.Quit;</span><br><span class="line">    EXCEL.delete;</span><br><span class="line">    fprintf(<span class="string">&#x27;%s的指定sheet已删除\n&#x27;</span>,x_path);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;删除完毕\n&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>在调试时，还遇到EXCEL被占用的情况，即运行到一半后报错，是因为创建EXCEL对象后打开未关闭造成的，可用火绒接触占用，或关闭matlab后等待一段时间后重试，个人认为还是没Python便捷。</p>
+<h2 id="参考链接"><a class="markdownIt-Anchor" href="#参考链接"></a> 参考链接</h2>
+<ul>
+<li><a href="http://bbs.xtjc.com/thread-376095-1-1.html">http://bbs.xtjc.com/thread-376095-1-1.html</a></li>
+<li><a href="https://www.jb51.net/article/219444.htm#:~:text=matlab%E5%92%8CExcel%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%20%28%E9%9D%9Exlsread%E5%92%8Cxlswrite%29%201%201.%E6%89%93%E5%BC%80Excel%202%202.%E6%96%B0%E5%BB%BAworkbook%E5%B7%A5%E4%BD%9C%E7%B0%BF%203,3.%E6%96%B0%E5%BB%BAworksheet%E5%B7%A5%E4%BD%9C%E8%A1%A8%204%203.%E4%BF%AE%E6%94%B9%E5%B7%A5%E4%BD%9C%E8%A1%A8%E5%90%8D%E7%A7%B0%205%204.%E9%80%89%E4%B8%AD%E5%B7%A5%E4%BD%9C%E8%A1%A8%E5%B9%B6%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%206%205.%E9%80%80%E5%87%BA%E5%B9%B6%E4%BF%9D%E5%AD%98">https://www.jb51.net/article/219444.htm#:~:text=matlab和Excel的数据交互操作 (非xlsread和xlswrite) 1 1.打开Excel 2 2.新建workbook工作簿 3,3.新建worksheet工作表 4 3.修改工作表名称 5 4.选中工作表并写入数据 6 5.退出并保存</a></li>
+<li><a href="https://docs.microsoft.com/zh-cn/office/vba/api/excel.worksheets.item">https://docs.microsoft.com/zh-cn/office/vba/api/excel.worksheets.item</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>hexo</category>
+        <category>Python PRJ</category>
       </categories>
       <tags>
-        <tag>轻小说</tag>
-        <tag>影视改写</tag>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>Data process</tag>
+        <tag>matlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Markdown语法速查</title>
+    <url>/2022/08/07/Markdown%E8%AF%AD%E6%B3%95%E9%80%9F%E6%9F%A5/</url>
+    <content><![CDATA[<p>每次写东西写着写着就忘语法了，啊啊啊。<br>
+搞个速查笔记放博客里，省的百度有时候还百度不到。</p>
+<h2 id="六级标题语法"><a class="markdownIt-Anchor" href="#六级标题语法"></a> 六级标题语法</h2>
+<p>记得住，略。</p>
+<h2 id="段落语法"><a class="markdownIt-Anchor" href="#段落语法"></a> 段落语法</h2>
+<p>这个很迷，每次都喜欢按tab缩进，实际上是个错的，段与段用一个空行隔开就行了。</p>
+<h2 id="换行语法"><a class="markdownIt-Anchor" href="#换行语法"></a> 换行语法</h2>
+<p>回车完事。</p>
+<h2 id="强调语法"><a class="markdownIt-Anchor" href="#强调语法"></a> 强调语法</h2>
+<p>粗体：单星<br>
+斜体：双星<br>
+粗斜体：三星<br>
+貌似Ctrl+B/I 就行了，和Word一样</p>
+<h2 id="引用语法"><a class="markdownIt-Anchor" href="#引用语法"></a> 引用语法</h2>
+<p>用&gt;，如果有多重引用，用&gt;&gt;</p>
+<h2 id="列表语法"><a class="markdownIt-Anchor" href="#列表语法"></a> 列表语法</h2>
+<p>有序无序两种，都记得住。记得加空格就行了。</p>
+<h2 id="代码语法"><a class="markdownIt-Anchor" href="#代码语法"></a> 代码语法</h2>
+<p>用反引号` `，<code>就像这样</code>，每次都记成回车旁边的那个，应该是左上方的Tab上面的那个</p>
+<h2 id="分隔语法"><a class="markdownIt-Anchor" href="#分隔语法"></a> 分隔语法</h2>
+<p>三道杠。</p>
+<h2 id="链接语法"><a class="markdownIt-Anchor" href="#链接语法"></a> 链接语法</h2>
+<p>[超链接显示名](超链接地址 “超链接title”)<br>
+title是鼠标移上去之后显示到名字。</p>
+<h2 id="图片语法"><a class="markdownIt-Anchor" href="#图片语法"></a> 图片语法</h2>
+<p>![图片名字](图片链接 “图片title”)</p>
+<p>还有一个是点图片弹链接的那种</p>
+<p>[![图片名字](图片链接 “图片title”)](弹出的链接)</p>
+<h2 id="转义字符语法"><a class="markdownIt-Anchor" href="#转义字符语法"></a> 转义字符语法</h2>
+<p>和C一样</p>
+<h2 id="内嵌html标签"><a class="markdownIt-Anchor" href="#内嵌html标签"></a> 内嵌HTML标签</h2>
+<p>懒得学</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>U-disk-capacity-conversion</title>
+    <url>/2022/08/06/U-disk-capacity-conversion/</url>
+    <content><![CDATA[<p>project url:</p>
+<p><a href="https://github.com/Oliver-Lief/U-disk-capacity-conversion">https://github.com/Oliver-Lief/U-disk-capacity-conversion</a></p>
+<p>我们都知道，存储器的容量厂家和电脑的计算是不一致的，主要表现在电脑显示的容量小于你所购买的任容量，如果购买了U盘或硬盘，怎么知道容量是否正确，本项目帮你解决。</p>
+<h2 id="项目依赖"><a class="markdownIt-Anchor" href="#项目依赖"></a> 项目依赖</h2>
+<p>本项目依赖Pyqt5</p>
+<p>win下：</p>
+<p><code>pip install PyQt5</code></p>
+<p><code>pip install pyqt5-tools</code></p>
+<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
+<p>然后运行U_disk.py即可</p>
+<p><img src="/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png" alt="U-disk-capacity-conversion"></p>
+]]></content>
+      <categories>
+        <category>Python PRJ</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>python</tag>
+        <tag>Interests</tag>
       </tags>
   </entry>
   <entry>
@@ -114,13 +234,9 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点3：不订立书面劳动合同</strong><br>
 书面劳动合同是认定劳动关系最有力的证据，如果不订立书面劳动合同，劳动者的权利很难得到保护。#宝藏：入职一个月内不订立劳动合同，可以要求付双倍工资哦</p>
 <blockquote>
-<p>《劳动合同法》第十条：“建立劳动关系，应当订立书面劳动合同。已建立劳动关系，未同时订立书面劳动合同的，应当自用工之日起一个月内订立书面劳动合同。用人单位与劳动者在用工前订立劳动合同的，劳动关系自用工之日起建立。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动合同法》第八十二条：“用人单位自用工之日起超过一个月不满一年未与劳动者订立书面劳动合同的，应当向劳动者每月支付二倍的工资。”</p>
-</blockquote>
-<blockquote>
-<p>如果用人单位坚持不订立书面劳动合同，可以保留好工卡/工牌、工服、考勤记录、工作沟通记录等证据，向劳动监察部门投诉。但如果三方协议和offer等书面文件具备基本劳动合同条款，也可能被法院「视为」书面劳动合同，你就没法薅双倍工资羊毛了。</p>
+<p>《劳动合同法》第十条：“建立劳动关系，应当订立书面劳动合同。已建立劳动关系，未同时订立书面劳动合同的，应当自用工之日起一个月内订立书面劳动合同。用人单位与劳动者在用工前订立劳动合同的，劳动关系自用工之日起建立。”<br>
+《劳动合同法》第八十二条：“用人单位自用工之日起超过一个月不满一年未与劳动者订立书面劳动合同的，应当向劳动者每月支付二倍的工资。”<br>
+如果用人单位坚持不订立书面劳动合同，可以保留好工卡/工牌、工服、考勤记录、工作沟通记录等证据，向劳动监察部门投诉。但如果三方协议和offer等书面文件具备基本劳动合同条款，也可能被法院「视为」书面劳动合同，你就没法薅双倍工资羊毛了。</p>
 </blockquote>
 <p><strong>雷点4：用人单位不具备合法资质</strong><br>
 用人单位在法律上根本不存在，比如未办理营业执照、营业执照被吊销或者营业期限届满仍继续经营#喂，你是幽灵吗？日后发生争议时，基本只能去寻找单位出资人。<br>
@@ -129,23 +245,17 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点6：用人单位注册地在外地</strong><br>
 日后发生争议时，如果不能证明劳动合同履行地在本地，有可能需要到外地申请劳动仲裁，大大增加维权成本。</p>
 <blockquote>
-<p>可以事先在“国家企业信用信息公示系统”、“信用中国”、“天眼查”或“企查查”等网站上查询用人单位的全称、类型、经营范围、规模、存续状态、业绩、口碑等，检查劳动合同上的名称、公章是否都与查询结果一致。</p>
-</blockquote>
-<blockquote>
-<p>如果发现问题，劳动者有权要求与真实、准确、合法的用人单位订立劳动合同，否则建议不要提供劳动。</p>
-</blockquote>
-<blockquote>
-<p>用人单位在外地的，应综合考虑日后发生争议的概率，评估自己是否愿意承担相应的风险。</p>
+<p>可以事先在“国家企业信用信息公示系统”、“信用中国”、“天眼查”或“企查查”等网站上查询用人单位的全称、类型、经营范围、规模、存续状态、业绩、口碑等，检查劳动合同上的名称、公章是否都与查询结果一致。<br>
+如果发现问题，劳动者有权要求与真实、准确、合法的用人单位订立劳动合同，否则建议不要提供劳动。<br>
+用人单位在外地的，应综合考虑日后发生争议的概率，评估自己是否愿意承担相应的风险。</p>
 </blockquote>
 <p><strong>雷点7：订立一份劳动合同，但为多个单位提供劳动</strong><br>
 有些单位相互关联，明明跟A单位签了劳动合同，却被派去帮B单位干活。日后发生争议时，要考虑到A、B单位互相#甩锅（A说你没帮它干活，B说你没跟它签劳动合同）、难以确定责任单位的可能性。<br>
 <strong>雷点8：用人单位要求与第三方订立劳务派遣合同</strong><br>
 可能在实际用工中与本单位员工待遇不同；在遇到一些具体问题时，如工伤认定等，操作复杂程度有所上升。</p>
 <blockquote>
-<p>如果必须为订立劳动合同单位之外的其他单位提供劳动，又并非劳务派遣，则应该得到订立劳动合同单位的书面认可或指示，并保留好在不同用人单位劳动的证据。</p>
-</blockquote>
-<blockquote>
-<p>在不得不签订劳务派遣合同的情况下，尤其需要确认派遣单位是否具备合法资质，如果是小公司则需要定期关注他们是否按时缴纳五险一金、操作流程是否规范等。</p>
+<p>如果必须为订立劳动合同单位之外的其他单位提供劳动，又并非劳务派遣，则应该得到订立劳动合同单位的书面认可或指示，并保留好在不同用人单位劳动的证据。<br>
+在不得不签订劳务派遣合同的情况下，尤其需要确认派遣单位是否具备合法资质，如果是小公司则需要定期关注他们是否按时缴纳五险一金、操作流程是否规范等。</p>
 </blockquote>
 <p><strong>雷点9：用人单位要求订立阴阳合同</strong><br>
 为避税等目的订立阴阳合同，比如一份对外的薪资较低，一份对内的（或者口头的）薪资较高。日后发生争议时，证据上可能面临不利。<br>
@@ -158,10 +268,8 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点13：用人单位不提供劳动者应持有的一份劳动合同</strong>*<br>
 劳动合同永远是最关键的证据。合同在手，命运在手</p>
 <blockquote>
-<p>《劳动合同法》第十七条：“劳动合同应当具备以下条款：（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。”</p>
-</blockquote>
-<blockquote>
-<p>如果用人单位提供的合同对于这些条款约定不明，劳动者应当要求补充并写进书面合同，同时可以将协商过程录音留证。其中一些重点条款我们将在下文继续为大家分析。</p>
+<p>《劳动合同法》第十七条：“劳动合同应当具备以下条款：（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。”<br>
+如果用人单位提供的合同对于这些条款约定不明，劳动者应当要求补充并写进书面合同，同时可以将协商过程录音留证。其中一些重点条款我们将在下文继续为大家分析。</p>
 </blockquote>
 <h2 id="02-试用期"><a class="markdownIt-Anchor" href="#02-试用期"></a> 02 试用期</h2>
 <p><strong>雷点15：劳动合同约定的试用期过长</strong><br>
@@ -173,19 +281,11 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点18：劳动合同约定试用期可以无理由解除合同</strong><br>
 无效，#在中国记住一句话，招人容易，赶人难</p>
 <blockquote>
-<p>以上情况都属于违反《劳动合同法》的内容。</p>
-</blockquote>
-<blockquote>
-<p>《劳动合同法》第十九条：“劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动合同法》第二十条：“劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动合同法》第二十一条：“在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。”</p>
-</blockquote>
-<blockquote>
-<p>劳动者可以根据自身情况判断用人单位的合同内容中有无违反上述法律规定的条款，并与对方进行沟通，过程中录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是拒绝订立劳动合同、直接止损，还是先订立劳动合同，日后发生争议时，再以此为证据申请劳动仲裁。</p>
+<p>以上情况都属于违反《劳动合同法》的内容。<br>
+《劳动合同法》第十九条：“劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。”<br>
+《劳动合同法》第二十条：“劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。”<br>
+《劳动合同法》第二十一条：“在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。”<br>
+劳动者可以根据自身情况判断用人单位的合同内容中有无违反上述法律规定的条款，并与对方进行沟通，过程中录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是拒绝订立劳动合同、直接止损，还是先订立劳动合同，日后发生争议时，再以此为证据申请劳动仲裁。</p>
 </blockquote>
 <h2 id="03-工作内容和工作地点"><a class="markdownIt-Anchor" href="#03-工作内容和工作地点"></a> 03 工作内容和工作地点</h2>
 <p><strong>雷点19：劳动合同上不约定工作岗位/内容</strong><br>
@@ -207,32 +307,20 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点25：劳动合同约定劳动者不得拒绝加班</strong><br>
 虽然现实很骨感但请知晓你的权利，劳动者有权拒绝加班，除非遇到天灾人祸紧急事故公共设备抢修……</p>
 <blockquote>
-<p>《国务院关于职工工作时间的规定》第三条：“国家实行职工每日工作8小时、平均每周工作40小时的工时制度。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动法》第三十八条：“用人单位应当保证劳动者每周至少休息一日。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动法》第四十条：“用人单位在下列节日期间应当依法安排劳动者休假：（一）元旦；（二）春节；（三）国际劳动节；（四）国庆节；（五）法律、法规规定的其他休假节日。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动法》第四十一条：“用人单位由于生产经营需要，经与工会和劳动者协商后可以延长工作时间，一般每日不得超过一小时；因特殊原因需要延长工作时间的，在保障劳动者身体健康的条件下延长工作时间每日不得超过三小时，但是每月不得超过三十六小时。” 虽然现实很骨感但请知晓你的权利：超过36小时可以投诉用人单位，依据是《劳动保障监察条例》(国务院423号令)第25条：“用人单位违反劳动保障法律、法规或者规章延长劳动者工作时间的，由劳动保障行政部门给予警告，责令限期改正，并可以按照受侵害的劳动者每人100元以上500元以下的标准计算，处以罚款。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动法》第四十二条：“有下列情形之一的，延长工作时间不受本法第四十一条规定的限制：（一）发生自然灾害、事故或者因其他原因，威胁劳动者生命健康和财产安全，需要紧急处理的；（二）生产设备、交通运输线路、公共设施发生故障，影响生产和公众利益，必须及时抢修的；（三）法律、行政法规规定的其他情形。”</p>
+<p>《国务院关于职工工作时间的规定》第三条：“国家实行职工每日工作8小时、平均每周工作40小时的工时制度。”<br>
+《劳动法》第三十八条：“用人单位应当保证劳动者每周至少休息一日。”<br>
+《劳动法》第四十条：“用人单位在下列节日期间应当依法安排劳动者休假：（一）元旦；（二）春节；（三）国际劳动节；（四）国庆节；（五）法律、法规规定的其他休假节日。”<br>
+《劳动法》第四十一条：“用人单位由于生产经营需要，经与工会和劳动者协商后可以延长工作时间，一般每日不得超过一小时；因特殊原因需要延长工作时间的，在保障劳动者身体健康的条件下延长工作时间每日不得超过三小时，但是每月不得超过三十六小时。” 虽然现实很骨感但请知晓你的权利：超过36小时可以投诉用人单位，依据是《劳动保障监察条例》(国务院423号令)第25条：“用人单位违反劳动保障法律、法规或者规章延长劳动者工作时间的，由劳动保障行政部门给予警告，责令限期改正，并可以按照受侵害的劳动者每人100元以上500元以下的标准计算，处以罚款。”<br>
+《劳动法》第四十二条：“有下列情形之一的，延长工作时间不受本法第四十一条规定的限制：（一）发生自然灾害、事故或者因其他原因，威胁劳动者生命健康和财产安全，需要紧急处理的；（二）生产设备、交通运输线路、公共设施发生故障，影响生产和公众利益，必须及时抢修的；（三）法律、行政法规规定的其他情形。”</p>
 </blockquote>
 <p><strong>雷点26：劳动合同中未约定加班费计算基数</strong><br>
 <strong>「雷点密集」</strong> 现实中由加班费引发的纠纷非常多，核心是加班费计算基数谈不拢，用人单位往往据理力争采用当地最低工资标准。劳动者应该在合同签订前就与用人单位明确自己可接受的加班费计算基数（即“正常工作时间工资”），否则后患无穷。<br>
 <strong>雷点27：劳动合同中定额约定加班费或约定月工资已包含加班费（“包薪制”）</strong><br>
 <strong>「雷点密集」</strong> 很可能是用人单位为节省加班费而设计出的骚操作。日后如果发生争议，劳动者主张额外加班费时，用人单位可能会以双方约定为理由进行抗辩，虽然不一定能得到劳动仲裁机构或法院支持，但也增加了劳动者维权的障碍。</p>
 <blockquote>
-<p>加班工资＝月加班费计算基数÷21.75天÷8小时×加班小时数×（工作日加班：150%；休息日加班且未安排补休：200%；法定休假日加班：300%）</p>
-</blockquote>
-<blockquote>
-<p>法律依据是《劳动法》第四十四条：“有下列情形之一的，用人单位应当按照下列标准支付高于劳动者正常工作时间工资的工资报酬：（一）安排劳动者延长工作时间的，支付不低于工资的百分之一百五十的工资报酬；（二）休息日安排劳动者工作又不能安排补休的，支付不低于工资的百分之二百的工资报酬；（三）法定休假日安排劳动者工作的，支付不低于工资的百分之三百的工资报酬。”前方高能：法定休假日是带薪假期（与周末不同，周末是不计薪的），即使不上班依然有100%的工资，因此法定节假日上班的实发工资应该是100%+300%=400%</p>
-</blockquote>
-<blockquote>
-<p>劳动者可以根据自身情况判断用人单位的合同内容中有无违反上述法律规定的条款，并与对方进行沟通，过程中录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是拒绝订立劳动合同、直接止损，还是先订立劳动合同，日后发生争议时，再以此为证据申请劳动仲裁。</p>
+<p>加班工资＝月加班费计算基数÷21.75天÷8小时×加班小时数×（工作日加班：150%；休息日加班且未安排补休：200%；法定休假日加班：300%）<br>
+法律依据是《劳动法》第四十四条：“有下列情形之一的，用人单位应当按照下列标准支付高于劳动者正常工作时间工资的工资报酬：（一）安排劳动者延长工作时间的，支付不低于工资的百分之一百五十的工资报酬；（二）休息日安排劳动者工作又不能安排补休的，支付不低于工资的百分之二百的工资报酬；（三）法定休假日安排劳动者工作的，支付不低于工资的百分之三百的工资报酬。”前方高能：法定休假日是带薪假期（与周末不同，周末是不计薪的），即使不上班依然有100%的工资，因此法定节假日上班的实发工资应该是100%+300%=400%<br>
+劳动者可以根据自身情况判断用人单位的合同内容中有无违反上述法律规定的条款，并与对方进行沟通，过程中录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是拒绝订立劳动合同、直接止损，还是先订立劳动合同，日后发生争议时，再以此为证据申请劳动仲裁。</p>
 </blockquote>
 <h2 id="05-劳动报酬"><a class="markdownIt-Anchor" href="#05-劳动报酬"></a> 05 劳动报酬</h2>
 <p><strong>雷点28：劳动合同上不约定劳动报酬</strong><br>
@@ -252,10 +340,8 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点33：用人单位与劳动者约定由第三方代缴社保</strong><br>
 99%违法，#而且你要是同意了，那你可能也是有责任的。核心是劳动关系和社保关系必须一致，否则风险巨大，到时候可能工伤待遇拿不到、失业保险金领不了、退休不被批准、被计入信用档案、罚款甚至承担刑事责任……#赔了夫人又折兵</p>
 <blockquote>
-<p>用人单位应该按照法律规定的方式和数额为劳动者缴纳社会保险，如果没有缴纳，劳动者有权提出。沟通无果的，可以向社保稽核部门投诉；遭受损失的，可以申请劳动仲裁。</p>
-</blockquote>
-<blockquote>
-<p>宝藏：劳动者不仅可以要求用人单位补缴，还可以以此为由提出解除劳动合同，并可要求用人单位支付经济补偿。</p>
+<p>用人单位应该按照法律规定的方式和数额为劳动者缴纳社会保险，如果没有缴纳，劳动者有权提出。沟通无果的，可以向社保稽核部门投诉；遭受损失的，可以申请劳动仲裁。<br>
+宝藏：劳动者不仅可以要求用人单位补缴，还可以以此为由提出解除劳动合同，并可要求用人单位支付经济补偿。</p>
 </blockquote>
 <h2 id="07-服务期"><a class="markdownIt-Anchor" href="#07-服务期"></a> 07 服务期</h2>
 <p><strong>雷点34：用人单位在劳动合同中与劳动者约定了服务期，但未提供专项培训</strong><br>
@@ -263,10 +349,8 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点35：劳动合同中约定的劳动者违反服务期的违约金过高</strong><br>
 违约金不得超过用人单位提供的培训费用，而且实际支付金额按剩余服务期所占比例计算。</p>
 <blockquote>
-<p>《劳动合同法》第二十二条：“用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。”</p>
-</blockquote>
-<blockquote>
-<p>劳动合同条款如果违反本条法律，劳动者可以向用人单位指出，要求修改，并将协商过程录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是否拒绝订立劳动合同。</p>
+<p>《劳动合同法》第二十二条：“用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。”<br>
+劳动合同条款如果违反本条法律，劳动者可以向用人单位指出，要求修改，并将协商过程录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是否拒绝订立劳动合同。</p>
 </blockquote>
 <h2 id="08-保密和竞业限制"><a class="markdownIt-Anchor" href="#08-保密和竞业限制"></a> 08 保密和竞业限制</h2>
 <p><strong>雷点36：普通员工的竞业限制条款</strong><br>
@@ -278,16 +362,10 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点39：劳动合同中约定的劳动者一方的竞业违约金过高</strong><br>
 日后如果发生争议，违约金可能会被法院调低。为减少诉讼成本，建议签订合同前就跟用人单位谈好价格。风平浪静时，有话好好说</p>
 <blockquote>
-<p>《劳动合同法》第二十三条：“用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动合同法》第二十四条：“竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动合同法》第二十五条：“除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。”</p>
-</blockquote>
-<blockquote>
-<p>出现违反上述条款的情况，劳动者可以向用人单位指出，要求修改，并将协商过程录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是否拒绝订立劳动合同。</p>
+<p>《劳动合同法》第二十三条：“用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。”<br>
+《劳动合同法》第二十四条：“竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。”<br>
+《劳动合同法》第二十五条：“除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。”<br>
+出现违反上述条款的情况，劳动者可以向用人单位指出，要求修改，并将协商过程录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是否拒绝订立劳动合同。</p>
 </blockquote>
 <h2 id="09-其它可能违法条款"><a class="markdownIt-Anchor" href="#09-其它可能违法条款"></a> 09 其它可能违法条款</h2>
 <p><strong>雷点40：劳动合同中约定“末位淘汰”制度</strong><br>
@@ -299,16 +377,10 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
 <strong>雷点43：劳动合同中约定其他服务期和违约金</strong><br>
 能约定服务期的只有一种情况（用人单位提供了专项培训），能约定违约金的只有两种情况（违反服务期、违反竞业限制#默认规则：劳动者提前离职不需要支付违约金，只需要提前30日书面通知用人单位）。特殊待遇（户口、房、车）和保密义务虽然不可以约定服务期和违约金，但劳动者因提前离职或泄密造成用人单位损失的，需要承担赔偿责任。</p>
 <blockquote>
-<p>《劳动合同法》第二十六条：“下列劳动合同无效或者部分无效：（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。”</p>
-</blockquote>
-<blockquote>
-<p>《劳动法》和《劳动合同法》对于何种情况下用人单位可以解除劳动关系有着明确的规定，用人单位如果在劳动合同中单独设立条款，有可能就是为了免除自己的法定责任、排除劳动者权利的。劳动者有权向用人单位指出，要求修改，并将协商过程录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是否拒绝订立劳动合同。</p>
-</blockquote>
-<blockquote>
-<p>可以参考人力资源与社会保障部发布的劳动合同范本，对比劳动合同中是否出现其他反常条款（例如约定合同发生争议时适用某不知名小国家的法律）。</p>
-</blockquote>
-<blockquote>
-<p>即使劳动者与用人单位订立了劳动合同，其中违反法律法规的部分也不会生效，大多数情况是由用人单位来承担相关的不利后果。但劳动者不应恶意利用这一点，还是以双方平等协商、达成一致为主要原则，日常工作中注意保存证据，在有需要的时候能够证明事实、维护自己的正当权利即可。</p>
+<p>《劳动合同法》第二十六条：“下列劳动合同无效或者部分无效：（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。”<br>
+《劳动法》和《劳动合同法》对于何种情况下用人单位可以解除劳动关系有着明确的规定，用人单位如果在劳动合同中单独设立条款，有可能就是为了免除自己的法定责任、排除劳动者权利的。劳动者有权向用人单位指出，要求修改，并将协商过程录音留证。如果沟通不成，根据单位和自身情况综合判断，决定是否拒绝订立劳动合同。<br>
+可以参考人力资源与社会保障部发布的劳动合同范本，对比劳动合同中是否出现其他反常条款（例如约定合同发生争议时适用某不知名小国家的法律）。<br>
+即使劳动者与用人单位订立了劳动合同，其中违反法律法规的部分也不会生效，大多数情况是由用人单位来承担相关的不利后果。但劳动者不应恶意利用这一点，还是以双方平等协商、达成一致为主要原则，日常工作中注意保存证据，在有需要的时候能够证明事实、维护自己的正当权利即可。</p>
 </blockquote>
 ]]></content>
       <categories>
@@ -319,196 +391,67 @@ Offer也不是劳动合同。用人单位单方面发出的offer可以视为要�
       </tags>
   </entry>
   <entry>
-    <title>Markdown语法速查</title>
-    <url>/2022/08/07/Markdown%E8%AF%AD%E6%B3%95%E9%80%9F%E6%9F%A5/</url>
-    <content><![CDATA[<p>每次写东西写着写着就忘语法了，啊啊啊。<br>
-搞个速查笔记放博客里，省的百度有时候还百度不到。</p>
-<h1 id="六级标题语法"><a class="markdownIt-Anchor" href="#六级标题语法"></a> 六级标题语法</h1>
-<p>记得住，略。</p>
-<h1 id="段落语法"><a class="markdownIt-Anchor" href="#段落语法"></a> 段落语法</h1>
-<p>这个很迷，每次都喜欢按tab缩进，实际上是个错的，段与段用一个空行隔开就行了。</p>
-<h1 id="换行语法"><a class="markdownIt-Anchor" href="#换行语法"></a> 换行语法</h1>
-<p>回车完事。</p>
-<h1 id="强调语法"><a class="markdownIt-Anchor" href="#强调语法"></a> 强调语法</h1>
-<p>粗体：单星<br>
-斜体：双星<br>
-粗斜体：三星<br>
-貌似Ctrl+B/I 就行了，和Word一样</p>
-<h1 id="引用语法"><a class="markdownIt-Anchor" href="#引用语法"></a> 引用语法</h1>
-<p>用&gt;，如果有多重引用，用&gt;&gt;</p>
-<h1 id="列表语法"><a class="markdownIt-Anchor" href="#列表语法"></a> 列表语法</h1>
-<p>有序无序两种，都记得住。记得加空格就行了。</p>
-<h1 id="代码语法"><a class="markdownIt-Anchor" href="#代码语法"></a> 代码语法</h1>
-<p>用反引号` `，<code>就像这样</code>，每次都记成回车旁边的那个，应该是左上方的Tab上面的那个</p>
-<h1 id="分隔语法"><a class="markdownIt-Anchor" href="#分隔语法"></a> 分隔语法</h1>
-<p>三道杠。</p>
-<h1 id="链接语法"><a class="markdownIt-Anchor" href="#链接语法"></a> 链接语法</h1>
-<p>[超链接显示名](超链接地址 “超链接title”)<br>
-title是鼠标移上去之后显示到名字。</p>
-<h1 id="图片语法"><a class="markdownIt-Anchor" href="#图片语法"></a> 图片语法</h1>
-<p>![图片名字](图片链接 “图片title”)</p>
-<p>还有一个是点图片弹链接的那种</p>
-<p>[![图片名字](图片链接 “图片title”)](弹出的链接)</p>
-<h1 id="转义字符语法"><a class="markdownIt-Anchor" href="#转义字符语法"></a> 转义字符语法</h1>
-<p>和C一样</p>
-<h1 id="内嵌html标签"><a class="markdownIt-Anchor" href="#内嵌html标签"></a> 内嵌HTML标签</h1>
-<p>懒得学</p>
+    <title>Hello World</title>
+    <url>/2022/07/28/Hello/</url>
+    <content><![CDATA[<h2 id="welcome-to-my-blog"><a class="markdownIt-Anchor" href="#welcome-to-my-blog"></a> <strong>Welcome to my blog:</strong></h2>
+<blockquote>
+<p>If you want to find something you are interested in, please check ‘分类’ <br>
+and if you have any questions in reading my projects, you can email me on <a href="mailto:lief53638332@yeah.net">lief53638332@yeah.net</a></p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>轻小说1——无法触碰的恋人</title>
+    <url>/2022/08/09/%E8%BD%BB%E5%B0%8F%E8%AF%B4%E2%80%94%E2%80%94%E8%B7%A8%E8%B6%8A%E6%97%B6%E7%A9%BA%E7%9A%84%E5%B0%91%E5%A5%B3/</url>
+    <content><![CDATA[<p>未步，普通女高中生，梦想着将来能成为科幻小说作家。由于父亲早逝，和母亲两人一起生活。未步的母亲多年后找到想要再婚的对象，并希望介绍给未步认识。未步觉得这是对父亲的背叛，无法接受现实，在会面时跑了出来</p>
+<p>正到楼梯时，一场地震突然来临，猝不及防的未步没抓牢手机，顺着消失在一团光芒中</p>
+<p>地球另一处</p>
+<p>宫田时次郎</p>
 ]]></content>
       <categories>
-        <category>笔记</category>
+        <category>hexo</category>
       </categories>
       <tags>
-        <tag>markdown</tag>
+        <tag>轻小说</tag>
+        <tag>影视改写</tag>
       </tags>
   </entry>
   <entry>
-    <title>批量删除EXCEL特定页面</title>
-    <url>/2022/08/06/Delete_sheet/</url>
-    <content><![CDATA[<p>project url:</p>
-<p><a href="https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet">https://github.com/Oliver-Lief/Delete_EXCEL_SpSheet</a></p>
-<p>小伙伴提出的一个想法，因平时只涉及到EXCEL的读取和数据计算操作，并不涉及页面的删除，故在遇到该问题时踩了很多坑，在此记录。并在此感谢<strong>Cassieleee</strong>问题的提出和帮助。</p>
-<h1 id="python方法"><a class="markdownIt-Anchor" href="#python方法"></a> Python方法</h1>
-<h2 id="使用说明"><a class="markdownIt-Anchor" href="#使用说明"></a> 使用说明：</h2>
-<p>将待处理的表格放入任意文件夹下。</p>
-<p><img src="/2022/08/06/Delete_sheet/ex2.png" alt="ex2"></p>
-<p><img src="/2022/08/06/Delete_sheet/ex1.png" alt="ex1"></p>
-<p>每个表格中均存在名为<code>Test</code>的Sheet名，将要删除该页面。</p>
-<p>填好路径运行即可</p>
-<h2 id="环境"><a class="markdownIt-Anchor" href="#环境"></a> 环境</h2>
-<ul>
-<li>编辑器：vscode</li>
-<li>编译器：python3.10.4</li>
-</ul>
-<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
-<ul>
-<li>openpyxl</li>
-<li>os</li>
-</ul>
-<h2 id="代码讲解"><a class="markdownIt-Anchor" href="#代码讲解"></a> 代码讲解</h2>
-<p>导入包</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">import</span> os</span><br></pre></td></tr></table></figure>
-<p>输入参数：</p>
-<ol>
-<li>待处理EXCEL路径</li>
-<li>要删除的页面的名称</li>
-</ol>
-<p>新建一个列表用来存放路径，指定要删除的sheet名’Test’，在当前程序所在目录遍历xlsx，并取出文件名存入filelist。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换路径</span></span><br><span class="line">path=<span class="string">r&#x27;D:\python\1&#x27;</span></span><br><span class="line"><span class="comment"># 替换要删除的页面名字</span></span><br><span class="line">sheet_name = <span class="string">&#x27;Test&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filelist = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&quot;.&quot;</span>, topdown=<span class="literal">False</span>):</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">        <span class="built_in">str</span> = os.path.join(root, name)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">str</span>.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] == <span class="string">&#x27;xlsx&#x27;</span>:</span><br><span class="line">            filelist.append(<span class="built_in">str</span>)</span><br></pre></td></tr></table></figure>
-<p>对filelist进行循环：</p>
-<ul>
-<li>首先打开工作簿</li>
-<li>然后得到要删除的工作表并调用remove方法移除</li>
-<li>最后保存</li>
-</ul>
-<p>其中若误将不存在特定sheet的文件放入，做了优化提示并不予处理。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(filelist)):</span><br><span class="line">    workbook = openpyxl.load_workbook(filelist[i])</span><br><span class="line">    <span class="comment"># 删除目标Sheet</span></span><br><span class="line">    <span class="keyword">if</span> sheet_name <span class="keyword">in</span> workbook:</span><br><span class="line">        worksheet = workbook[sheet_name]</span><br><span class="line">        workbook.remove(worksheet)</span><br><span class="line">        workbook.save(filelist[i])</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27; delete successfully!&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(filelist[i]+<span class="string">&#x27;的指定Sheet不存在，故不作处理&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<pre><code>.\process data\1 - 副本 (2) - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 (3).xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 - 副本 (2).xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本 - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1 - 副本.xlsx的指定Sheet不存在，故不作处理
-.\process data\1.xlsx delete successfully!
-</code></pre>
-<h1 id="matlab方法"><a class="markdownIt-Anchor" href="#matlab方法"></a> Matlab方法</h1>
-<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h2>
-<p>最开始所采用的即为<code>matlab</code>，但是出现版本不一从而删除不了的问题，后已解决。</p>
-<h2 id="环境-2"><a class="markdownIt-Anchor" href="#环境-2"></a> 环境</h2>
-<ul>
-<li>matlab2017</li>
-</ul>
-<h2 id="代码讲解-2"><a class="markdownIt-Anchor" href="#代码讲解-2"></a> 代码讲解</h2>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clc;</span><br><span class="line">clear all;</span><br><span class="line">close all;</span><br></pre></td></tr></table></figure>
-<p>输入参数：</p>
-<ul>
-<li>路径（python和matlab的路径格式貌似有点小区别）</li>
-<li>要删除的页面</li>
-</ul>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">path=<span class="string">&#x27;D:\matlab\data\&#x27;</span>;</span><br><span class="line">delete_sheet=<span class="string">&#x27;Test&#x27;</span>;</span><br></pre></td></tr></table></figure>
-<p>在循环体中：</p>
-<ol>
-<li>创建EXCEL对象</li>
-<li>利用<code>Workbooks.Open</code>方法打开EXCEL</li>
-<li>从集合中返回一个对象得到指定sheet</li>
-<li>激活指定sheet，也可理解为选定</li>
-<li><code>Cells.Clear</code>清空该sheet的数据（这里是之前的一个坑，貌似该方法无法直接删除有数据的页面，故在删除页面之前需要一个清空数据的操作）</li>
-<li>保存</li>
-<li>删除空页面</li>
-<li>保存</li>
-<li>关闭</li>
-<li>退出</li>
-<li>删除EXCEL对象</li>
-</ol>
-<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">file=dir([path <span class="string">&#x27;*.xlsx&#x27;</span>]);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="built_in">length</span>(file)</span><br><span class="line">    x_path=[path file(<span class="built_in">i</span>).name];</span><br><span class="line">    EXCEL=actxserver(<span class="string">&#x27;Excel.Application&#x27;</span>);</span><br><span class="line">    EXCEL.Workbooks.Open(x_path);</span><br><span class="line">    sheet=EXCEL.ActiveWorkbook.Sheets.Item(delete_sheet);</span><br><span class="line">    sheet.Activate;</span><br><span class="line">    sheet.Cells.Clear;</span><br><span class="line">    EXCEL.ActiveWorkbook.Save;</span><br><span class="line">    sheet.Delete;</span><br><span class="line">    EXCEL.ActiveWorkbook.Save;</span><br><span class="line">    EXCEL.ActiveWorkbook.Close;</span><br><span class="line">    EXCEL.Quit;</span><br><span class="line">    EXCEL.delete;</span><br><span class="line">    fprintf(<span class="string">&#x27;%s的指定sheet已删除\n&#x27;</span>,x_path);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;删除完毕\n&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<p>在调试时，还遇到EXCEL被占用的情况，即运行到一半后报错，是因为创建EXCEL对象后打开未关闭造成的，可用火绒接触占用，或关闭matlab后等待一段时间后重试，个人认为还是没Python便捷。</p>
-<h2 id="参考链接"><a class="markdownIt-Anchor" href="#参考链接"></a> 参考链接：</h2>
-<ul>
-<li><a href="http://bbs.xtjc.com/thread-376095-1-1.html">http://bbs.xtjc.com/thread-376095-1-1.html</a></li>
-<li><a href="https://www.jb51.net/article/219444.htm#:~:text=matlab%E5%92%8CExcel%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%20%28%E9%9D%9Exlsread%E5%92%8Cxlswrite%29%201%201.%E6%89%93%E5%BC%80Excel%202%202.%E6%96%B0%E5%BB%BAworkbook%E5%B7%A5%E4%BD%9C%E7%B0%BF%203,3.%E6%96%B0%E5%BB%BAworksheet%E5%B7%A5%E4%BD%9C%E8%A1%A8%204%203.%E4%BF%AE%E6%94%B9%E5%B7%A5%E4%BD%9C%E8%A1%A8%E5%90%8D%E7%A7%B0%205%204.%E9%80%89%E4%B8%AD%E5%B7%A5%E4%BD%9C%E8%A1%A8%E5%B9%B6%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%206%205.%E9%80%80%E5%87%BA%E5%B9%B6%E4%BF%9D%E5%AD%98">https://www.jb51.net/article/219444.htm#:~:text=matlab和Excel的数据交互操作 (非xlsread和xlswrite) 1 1.打开Excel 2 2.新建workbook工作簿 3,3.新建worksheet工作表 4 3.修改工作表名称 5 4.选中工作表并写入数据 6 5.退出并保存</a></li>
-<li><a href="https://docs.microsoft.com/zh-cn/office/vba/api/excel.worksheets.item">https://docs.microsoft.com/zh-cn/office/vba/api/excel.worksheets.item</a></li>
-</ul>
+    <title>解决C语言编程中cmd乱码问题</title>
+    <url>/2022/09/21/%E8%A7%A3%E5%86%B3cmd%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<h3 id="乱码原因"><a class="markdownIt-Anchor" href="#乱码原因"></a> 乱码原因</h3>
+<p><code>Windows</code>平台控制台默认使用<strong>WINDOWS-936代码页</strong>(即<strong>GBK编码</strong>)</p>
+<p>如果用<code>linux</code>开发就没有这些问题</p>
+<p>在命令行模式下，输入<code>chcp</code>指令即可查看当前代码页所使用的编码。</p>
+<h3 id="解决方案"><a class="markdownIt-Anchor" href="#解决方案"></a> 解决方案</h3>
+<h4 id="1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"><a class="markdownIt-Anchor" href="#1命令行输入chcp-65001但是只在当前窗口有效不经常使用cmd的童鞋可使用"></a> 1.命令行输入<code>chcp 65001</code>，但是只在当前窗口有效，不经常使用<code>cmd</code>的童鞋可使用</h4>
+<p>部分字符编码对应代码：</p>
+<blockquote>
+<p>65001——UTF-8<br>
+936——简体中文<br>
+950——繁体中文<br>
+437——美国/加拿大英语</p>
+</blockquote>
+<h4 id="2编写c语言脚本每次引入头文件即可建议使用"><a class="markdownIt-Anchor" href="#2编写c语言脚本每次引入头文件即可建议使用"></a> 2.编写C语言脚本，每次引入头文件即可（建议使用）</h4>
+<p>编写<code>win_utf8_cmd.h</code>的文件：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _WIN_UTF8_CMD_H_</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>编写<code>win_utf8_cmd.c</code>的文件：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win_utf8_cmd</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    system(<span class="string">&quot;chcp 65001 &amp; cls&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编写<code>main.c</code>文件测试</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;win_utf8_cmd.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    win_utf8_cmd();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;中文测试&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">gcc win_utf8_cmd.c main.c <span class="literal">-o</span> main</span><br><span class="line">main.exe</span><br></pre></td></tr></table></figure>
+<p>编译执行即可成功输出中文</p>
+<h4 id="3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"><a class="markdownIt-Anchor" href="#3利用外置编辑器如vscode可在下方的编码处手动修改为gbk编码或者在settingjson里配置如下"></a> 3.利用外置编辑器，如<code>vscode</code>，可在下方的编码处手动修改为<code>gbk</code>编码，或者在<code>setting.json</code>里配置如下</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;[cpp]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br><span class="line"> <span class="string">&quot;[c]&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;files.encoding&quot;</span>: <span class="string">&quot;gbk&quot;</span></span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+<p>可一劳永逸的解决问题</p>
+<p>WARNING：网上其他的方法，像cmd窗口点默认值更改亲测win10、win11不可用，且涉及到注册表的修改，如果不懂注册表机制不建议使用。</p>
 ]]></content>
       <categories>
-        <category>Python PRJ</category>
+        <category>program</category>
       </categories>
       <tags>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>Data process</tag>
-        <tag>matlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>U-disk-capacity-conversion</title>
-    <url>/2022/08/06/U-disk-capacity-conversion/</url>
-    <content><![CDATA[<p>project url:</p>
-<p><a href="https://github.com/Oliver-Lief/U-disk-capacity-conversion">https://github.com/Oliver-Lief/U-disk-capacity-conversion</a></p>
-<p>我们都知道，存储器的容量厂家和电脑的计算是不一致的，主要表现在电脑显示的容量小于你所购买的任容量，如果购买了U盘或硬盘，怎么知道容量是否正确，本项目帮你解决。</p>
-<h2 id="项目依赖"><a class="markdownIt-Anchor" href="#项目依赖"></a> 项目依赖</h2>
-<p>本项目依赖Pyqt5</p>
-<p>win下：</p>
-<p><code>pip install PyQt5</code></p>
-<p><code>pip install pyqt5-tools</code></p>
-<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
-<p>然后运行U_disk.py即可</p>
-<p><img src="/2022/08/06/U-disk-capacity-conversion/U-disk-capacity-conversion.png" alt="U-disk-capacity-conversion"></p>
-]]></content>
-      <categories>
-        <category>Python PRJ</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>Interests</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CNSS_Data_Get</title>
-    <url>/2022/07/31/CNSS-Data-Get/</url>
-    <content><![CDATA[<p>Project url:</p>
-<p><a href="https://github.com/Oliver-Lief/CNSS_Data_Get">https://github.com/Oliver-Lief/CNSS_Data_Get</a></p>
-<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明：</h2>
-<p>This is a project which can get tide data around the world</p>
-<p>源网址如下：<br>
-<a href="https://www.cnss.com.cn/tide/">https://www.cnss.com.cn/tide/</a></p>
-<h2 id="包"><a class="markdownIt-Anchor" href="#包"></a> 包</h2>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> calendar</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h2>
-<p>输入年份和月份和城市代码，将会在json和txt文件夹下自动生成对应数据：</p>
-<p>如：</p>
-<p>2021</p>
-<p>7</p>
-<p>1</p>
-<p>城市代码通过控制台查看，随缘更新城市代码</p>
-]]></content>
-      <categories>
-        <category>Python PRJ</category>
-      </categories>
-      <tags>
-        <tag>github</tag>
-        <tag>python</tag>
-        <tag>Data_get</tag>
+        <tag>cmd</tag>
+        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
